@@ -1,11 +1,9 @@
-import { Router } from 'express'
-import { listProducts, getProduct } from '../controllers/productController.js'
+import { Router } from "express";
+import { listProducts, getProduct } from "../controllers/productController.js";
 
-const router = Router()
+const router = Router();
 
-router.get('/', listProducts)
-router.get('/:id', getProduct)
+router.get("/", listProducts);
+router.get("/:id", getProduct);
 
-export default router
-
-
+export default router;
