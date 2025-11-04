@@ -197,7 +197,7 @@ Verifica status da API
 
 ## 👥 Desenvolvido por
 
-[Seu Nome] - Trabalho final de Programação para Web - UFC 2025.1
+Samuel de Castro Falcão - Trabalho final de Programação para Web - UFC 2025.1
 
 ## 📄 Licença
 
