@@ -4,7 +4,7 @@ Programação para Web - 2025.1
 
 NOMES E MATRÍCULAS DOS DISCENTES:
 
-1. [Nome do Aluno 1] - [Matrícula]
+1. Samuel de Castro Falcão - 537778
 2. [Nome do Aluno 2] - [Matrícula]
 3. [Nome do Aluno 3] - [Matrícula]
 
