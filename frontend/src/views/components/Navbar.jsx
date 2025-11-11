@@ -29,6 +29,9 @@ const Navbar = () => {
                   <Link to="/orders">Pedidos</Link>
                 </li>
                 <li>
+                  <Link to="/profile">Meu Perfil</Link>
+                </li>
+                <li>
                   <span>Olá, {user?.name}</span>
                 </li>
                 <li>

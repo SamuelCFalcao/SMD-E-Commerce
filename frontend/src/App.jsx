@@ -11,6 +11,7 @@ import Checkout from './views/pages/Checkout';
 import Login from './views/pages/Login';
 import Register from './views/pages/Register';
 import Orders from './views/pages/Orders';
+import Profile from './views/pages/Profile';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/orders" element={<Orders />} />
+                <Route path="/profile" element={<Profile />} />
               </Routes>
             </main>
             <Footer />

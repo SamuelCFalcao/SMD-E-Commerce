@@ -32,7 +32,8 @@ class OrderController {
   // Listar pedidos do usuário
   listByUser(req, res) {
     try {
-      const userId = req.userId || req.headers['user-id'] || 'guest';
+      // Pedidos requerem autenticação, então userId deve vir da sessão
+      const userId = req.userId;
       const orders = orderModel.getByUserId(userId);
       const enrichedOrders = orders.map(order => this.enrichOrder(order));
       res.json({
@@ -76,7 +77,8 @@ class OrderController {
   // Criar pedido
   create(req, res) {
     try {
-      const userId = req.userId || req.headers['user-id'] || 'guest';
+      // Pedidos requerem autenticação, então userId deve vir da sessão
+      const userId = req.userId;
       const { shippingAddress, paymentMethod } = req.body;
       
       if (!shippingAddress || !paymentMethod) {

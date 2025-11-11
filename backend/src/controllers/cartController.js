@@ -6,7 +6,8 @@ class CartController {
   // Obter carrinho do usuário
   get(req, res) {
     try {
-      const userId = req.userId || req.headers['user-id'] || 'guest';
+      // Usar userId da sessão se autenticado, caso contrário usar 'guest'
+      const userId = req.userId || 'guest';
       const cart = cartModel.getByUserId(userId);
       
       // Enriquecer com dados dos produtos
@@ -36,7 +37,7 @@ class CartController {
   // Adicionar item ao carrinho
   addItem(req, res) {
     try {
-      const userId = req.userId || req.headers['user-id'] || 'guest';
+      const userId = req.userId || 'guest';
       const { productId, quantity } = req.body;
       
       if (!productId) {
@@ -81,7 +82,7 @@ class CartController {
   // Remover item do carrinho
   removeItem(req, res) {
     try {
-      const userId = req.userId || req.headers['user-id'] || 'guest';
+      const userId = req.userId || 'guest';
       const { productId } = req.params;
       
       const cart = cartModel.removeItem(userId, productId);
@@ -111,7 +112,7 @@ class CartController {
   // Atualizar quantidade
   updateQuantity(req, res) {
     try {
-      const userId = req.userId || req.headers['user-id'] || 'guest';
+      const userId = req.userId || 'guest';
       const { productId } = req.params;
       const { quantity } = req.body;
       
@@ -149,7 +150,7 @@ class CartController {
   // Limpar carrinho
   clear(req, res) {
     try {
-      const userId = req.userId || req.headers['user-id'] || 'guest';
+      const userId = req.userId || 'guest';
       const cart = cartModel.clear(userId);
       res.json({
         success: true,
