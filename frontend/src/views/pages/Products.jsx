@@ -27,22 +27,40 @@ const Products = () => {
   };
 
   if (loading) {
-    return <div className="loading">Carregando produtos...</div>;
+    return (
+      <div className="products-page">
+        <div className="container">
+          <div className="loading">Carregando produtos...</div>
+        </div>
+      </div>
+    );
   }
 
   if (error) {
-    return <div className="alert alert-error">{error}</div>;
+    return (
+      <div className="products-page">
+        <div className="container">
+          <div className="alert alert-error">{error}</div>
+        </div>
+      </div>
+    );
   }
 
   return (
     <div className="products-page">
       <div className="container">
         <h1>Produtos</h1>
-        <div className="products-grid grid grid-4">
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
+        {products.length === 0 ? (
+          <div className="products-empty">
+            <p>Nenhum produto encontrado.</p>
+          </div>
+        ) : (
+          <div className="products-grid grid grid-4">
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

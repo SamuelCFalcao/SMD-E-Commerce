@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../../controllers/CartController';
+import { formatCurrency } from '../../utils/formatters';
 import './Cart.css';
 
 const Cart = () => {
@@ -64,7 +65,7 @@ const Cart = () => {
                     <div className="cart-item-info">
                       <h3>{item.product.name}</h3>
                       <p className="cart-item-price">
-                        R$ {item.product.price.toFixed(2).replace('.', ',')}
+                        {formatCurrency(item.product.price)}
                       </p>
                     </div>
                     <div className="cart-item-quantity">
@@ -83,7 +84,7 @@ const Cart = () => {
                       </button>
                     </div>
                     <div className="cart-item-total">
-                      R$ {(item.product.price * item.quantity).toFixed(2).replace('.', ',')}
+                      {formatCurrency(item.product.price * item.quantity)}
                     </div>
                     <button
                       onClick={() => handleRemove(item.productId)}
@@ -101,7 +102,7 @@ const Cart = () => {
               <h2>Resumo do Pedido</h2>
               <div className="cart-summary-row">
                 <span>Subtotal:</span>
-                <span>R$ {cart.total?.toFixed(2).replace('.', ',') || '0,00'}</span>
+                <span>{formatCurrency(cart.total || 0)}</span>
               </div>
               <div className="cart-summary-row">
                 <span>Frete:</span>
@@ -109,7 +110,7 @@ const Cart = () => {
               </div>
               <div className="cart-summary-row cart-summary-total">
                 <span>Total:</span>
-                <span>R$ {cart.total?.toFixed(2).replace('.', ',') || '0,00'}</span>
+                <span>{formatCurrency(cart.total || 0)}</span>
               </div>
               <Link to="/checkout" className="btn btn-primary" style={{ width: '100%', marginTop: '1rem' }}>
                 Finalizar Compra

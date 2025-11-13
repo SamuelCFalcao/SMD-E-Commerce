@@ -2,6 +2,8 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../controllers/AuthController';
 import orderService from '../../models/orderService';
+import { ORDER_STATUS_LABELS, PAYMENT_METHOD_LABELS } from '../../config/constants';
+import { formatDate, formatCurrency } from '../../utils/formatters';
 import './Orders.css';
 
 const Orders = () => {
@@ -56,24 +58,26 @@ const Orders = () => {
                 <div className="order-header">
                   <h3>Pedido #{order.id}</h3>
                   <span className={`order-status order-status-${order.status}`}>
-                    {order.status}
+                    {ORDER_STATUS_LABELS[order.status] || order.status}
                   </span>
                 </div>
                 <div className="order-details">
-                  <p><strong>Data:</strong> {new Date(order.createdAt).toLocaleDateString('pt-BR')}</p>
-                  <p><strong>Total:</strong> R$ {order.total.toFixed(2).replace('.', ',')}</p>
-                  <p><strong>Pagamento:</strong> {order.paymentMethod}</p>
-                  <p><strong>Endereço:</strong> {order.shippingAddress.street}, {order.shippingAddress.number} - {order.shippingAddress.city}/{order.shippingAddress.state}</p>
+                  <p><strong>Data:</strong> {formatDate(order.createdAt)}</p>
+                  <p><strong>Total:</strong> {formatCurrency(order.total)}</p>
+                  <p><strong>Pagamento:</strong> {PAYMENT_METHOD_LABELS[order.paymentMethod] || order.paymentMethod}</p>
+                  {order.shippingAddress && (
+                    <p><strong>Endereço:</strong> {order.shippingAddress.street}, {order.shippingAddress.number} - {order.shippingAddress.city}/{order.shippingAddress.state}</p>
+                  )}
                 </div>
                 <div className="order-items">
                   <h4>Itens:</h4>
                   <ul>
-                    {order.items.map((item, index) => (
+                    {order.items && order.items.map((item, index) => (
                       <li key={index}>
                         {item.product ? (
                           <>
                             {item.product.name} - Quantidade: {item.quantity} - 
-                            R$ {(item.product.price * item.quantity).toFixed(2).replace('.', ',')}
+                            {formatCurrency(item.product.price * item.quantity)}
                           </>
                         ) : (
                           <>

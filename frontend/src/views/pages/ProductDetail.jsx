@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import productService from '../../models/productService';
 import { useCart } from '../../controllers/CartController';
+import { formatCurrency } from '../../utils/formatters';
 import './ProductDetail.css';
 
 const ProductDetail = () => {
@@ -38,11 +39,23 @@ const ProductDetail = () => {
   };
 
   if (loading) {
-    return <div className="loading">Carregando produto...</div>;
+    return (
+      <div className="product-detail-page">
+        <div className="container">
+          <div className="loading">Carregando produto...</div>
+        </div>
+      </div>
+    );
   }
 
   if (!product) {
-    return <div className="alert alert-error">Produto não encontrado</div>;
+    return (
+      <div className="product-detail-page">
+        <div className="container">
+          <div className="alert alert-error">Produto não encontrado</div>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -56,7 +69,7 @@ const ProductDetail = () => {
             <h1>{product.name}</h1>
             <p className="product-detail-description">{product.description}</p>
             <div className="product-detail-price">
-              R$ {product.price.toFixed(2).replace('.', ',')}
+              {formatCurrency(product.price)}
             </div>
             <div className="product-detail-actions">
               <div className="quantity-selector">

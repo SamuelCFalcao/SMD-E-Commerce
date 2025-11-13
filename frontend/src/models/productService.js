@@ -6,7 +6,12 @@ class ProductService {
     try {
       const url = category ? `/api/products?category=${category}` : '/api/products';
       const response = await api.get(url);
-      return response.data.data || response.data;
+      // O backend retorna { success: true, data: [...] }
+      if (response.data.success && response.data.data) {
+        return response.data.data;
+      }
+      // Fallback para formato direto
+      return response.data.data || response.data || [];
     } catch (error) {
       console.error('Erro ao buscar produtos:', error);
       throw error;
@@ -16,9 +21,17 @@ class ProductService {
   async getById(id) {
     try {
       const response = await api.get(`/api/products/${id}`);
-      return response.data.data;
+      // O backend retorna { success: true, data: {...} }
+      if (response.data.success && response.data.data) {
+        return response.data.data;
+      }
+      // Fallback para formato direto
+      return response.data.data || response.data;
     } catch (error) {
       console.error('Erro ao buscar produto:', error);
+      if (error.response?.status === 404) {
+        throw new Error('Produto não encontrado');
+      }
       throw error;
     }
   }

@@ -1,15 +1,17 @@
 // View - Página de Checkout
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../controllers/CartController';
 import { useAuth } from '../../controllers/AuthController';
 import orderService from '../../models/orderService';
+import { PAYMENT_METHOD_LABELS } from '../../config/constants';
+import { formatCurrency } from '../../utils/formatters';
 import './Checkout.css';
 
 const Checkout = () => {
   const navigate = useNavigate();
   const { cart, clearCart } = useCart();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -22,6 +24,17 @@ const Checkout = () => {
     paymentMethod: 'credit'
   });
   const [loading, setLoading] = useState(false);
+
+  // Preencher dados do usuário se estiver logado
+  useEffect(() => {
+    if (user) {
+      setFormData(prev => ({
+        ...prev,
+        name: user.name || '',
+        email: user.email || ''
+      }));
+    }
+  }, [user]);
 
   const handleChange = (e) => {
     setFormData({
@@ -193,10 +206,10 @@ const Checkout = () => {
                   className="form-select"
                   required
                 >
-                  <option value="credit">Cartão de Crédito</option>
-                  <option value="debit">Cartão de Débito</option>
-                  <option value="pix">PIX</option>
-                  <option value="boleto">Boleto</option>
+                  <option value="credit">{PAYMENT_METHOD_LABELS.credit}</option>
+                  <option value="debit">{PAYMENT_METHOD_LABELS.debit}</option>
+                  <option value="pix">{PAYMENT_METHOD_LABELS.pix}</option>
+                  <option value="boleto">{PAYMENT_METHOD_LABELS.boleto}</option>
                 </select>
               </div>
             </section>
@@ -219,7 +232,7 @@ const Checkout = () => {
                     {item.product && (
                       <>
                         <span>{item.product.name} x {item.quantity}</span>
-                        <span>R$ {(item.product.price * item.quantity).toFixed(2).replace('.', ',')}</span>
+                        <span>{formatCurrency(item.product.price * item.quantity)}</span>
                       </>
                     )}
                   </div>
@@ -227,7 +240,7 @@ const Checkout = () => {
               </div>
               <div className="checkout-total">
                 <span>Total:</span>
-                <span>R$ {cart.total?.toFixed(2).replace('.', ',') || '0,00'}</span>
+                <span>{formatCurrency(cart.total || 0)}</span>
               </div>
             </div>
           </div>
